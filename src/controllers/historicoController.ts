@@ -29,14 +29,15 @@ export default {
       return res.json(results);
     } catch (error) {
       console.error(error);
-      return res.json({ success: false });
+      return res.json({ success: false, message: "Algum erro aconteceu" });
     }
   },
   async show(req: Request, res: Response) {
     const { id } = req.params;
 
     try {
-      const results = await db('pistas').select('*').where('id', id).first();
+      const trx = await db.transaction();
+      const results = await trx('historico').select('*').where('id', id).first();
 
       if (!results) {
         return res.json({ success: false, message: 'Não encontrado' });
@@ -45,7 +46,7 @@ export default {
       return res.json(results);
     } catch (error) {
       console.log(error);
-      return res.send('Error');
+      return res.json({ success: false, message: "Algum erro aconteceu"  });
     }
   },
   async post(req: Request, res: Response) {
@@ -73,10 +74,10 @@ export default {
       });
 
       await trx.commit();
-      return res.send({ success: true });
+      return res.send({ success: true, message: "Historico criado com sucesso" });
     } catch (error) {
       console.error(error);
-      return res.json({ success: false });
+      return res.json({ success: false, message: "Algum erro aconteceu" });
     }
   },
   async put(req: Request, res: Response) {
@@ -107,7 +108,7 @@ export default {
 
       return res.json({
         success: true,
-        message: 'Historico postado com sucesso',
+        message: 'Historico atualizado com sucesso',
       });
     } catch (error) {
       console.error(error);
@@ -122,10 +123,10 @@ export default {
       await trx('historico').where('id', id).delete();
       await trx.commit();
 
-      return res.json({ success: true });
+      return res.json({ success: true, message: "Historico deletado com sucesso" });
     } catch (error) {
       console.error(error);
-      return res.status(401).json({ success: false });
+      return res.status(401).json({ success: false, message: "Algum erro aconteceu" });
     }
   },
 };

@@ -115,7 +115,7 @@ export default {
       return res.json({ success: true, messsage: 'Atualizado com sucesso' });
     } catch (error) {
       console.error(error);
-      return res.json({ success: false, message: error });
+      return res.json({ success: false, message: "Algum erro aconteceu" });
     }
   },
   async delete(req: Request, res: Response) {
@@ -126,10 +126,10 @@ export default {
       await trx('competidores').where('id', id).delete();
 
       await trx.commit();
-      return res.json({ success: true });
+      return res.json({ success: true, message: "Competidor deletado com sucesso" });
     } catch (error) {
       console.error(error);
-      return res.status(401).json({ error: `Error` });
+      return res.status(401).json({ error: `Error`, success: false, message: "Algum erro aconteceu" });
     }
   },
 };

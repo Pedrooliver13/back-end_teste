@@ -17,8 +17,21 @@ function validate(body: any) {
 
 export default {
   async index(req: Request, res: Response) {
-    const results = await db('competidores').select('*');
-    return res.json(results);
+    try {
+      const results = await db('competidores').select('*');
+
+      if (!results.length) {
+        return res.json({
+          sucess: false,
+          message: 'Não encotramos nenhum competidor',
+        });
+      }
+
+      return res.json(results);
+    } catch (error) {
+      console.error(error);
+      return res.json({ success: false, message: 'Algum erro aconteceu' });
+    }
   },
   async show(req: Request, res: Response) {
     const { id } = req.params;
@@ -61,10 +74,10 @@ export default {
       });
 
       await trx.commit();
-      return res.send('Postado');
+      return res.json({ success: true, message: 'Postado com sucesso' });
     } catch (error) {
       console.error(error);
-      return res.json({ success: false });
+      return res.json({ success: false, message: 'Algum erro aconteceu' });
     }
   },
   async put(req: Request, res: Response) {
@@ -78,6 +91,14 @@ export default {
 
     try {
       const trx = await db.transaction();
+      const results = await trx('competidores').select('*').where('id', id);
+
+      if (!results.length) {
+        return res.json({
+          success: false,
+          message: 'Não encotramos nenhum competidor',
+        });
+      }
 
       await trx('competidores')
         .update({

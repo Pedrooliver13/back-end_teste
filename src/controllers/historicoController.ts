@@ -18,12 +18,14 @@ function validate(body: any) {
 export default {
   async index(req: Request, res: Response) {
     try {
-      const results = await db('historico').select('*');
+      const trx = await db.transaction();
+      const results = await trx('historico').select('*');
 
-      if (!results) {
+      if (!results.length) {
         return res.json({ success: false, message: 'Não tem histórico' });
       }
 
+      await trx.commit();
       return res.json(results);
     } catch (error) {
       console.error(error);
@@ -59,7 +61,7 @@ export default {
       const trx = await db.transaction();
       const pistas = await trx('pistas').select('*').where('id', id);
 
-      if (!pistas) {
+      if (!pistas.length) {
         return res.json({ success: false, message: 'Não temos nenhuma pista' });
       }
 
@@ -83,15 +85,33 @@ export default {
 
     try {
       const trx = await db.transaction();
+      const results = await trx('historico').select('*').where('id', id);
+
+      if (!results.length) {
+        return res.json({
+          success: false,
+          message: 'Não encotramos nenhum historico',
+        });
+      }
+
       await trx('historico')
-        .update({ competidor_id, pista_id: id, data_corrida, tempo })
+        .update({
+          id,
+          competidor_id,
+          data_corrida,
+          tempo,
+        })
         .where('id', id);
+
       await trx.commit();
 
-      return res.json({ success: true });
+      return res.json({
+        success: true,
+        message: 'Historico postado com sucesso',
+      });
     } catch (error) {
       console.error(error);
-      return res.json({ success: false });
+      return res.json({ success: false, message: 'Algum erro aconteceu' });
     }
   },
   async delete(req: Request, res: Response) {

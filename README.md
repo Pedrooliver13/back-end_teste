@@ -20,7 +20,7 @@
 ## banco de dados
 
 * Tabelas
-<img src="https://gitlab.com/qyon/dot-net-adventure-works/-/raw/master/MER.png" />
+![tables](https://user-images.githubusercontent.com/56042296/101669860-3d3abc00-3a31-11eb-947e-95c7425966a9.png)
 
 ## Rotas
 

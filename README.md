@@ -20,7 +20,25 @@
 ## banco de dados
 
 * Tabelas
+
+<br/>
+
 ![tables](https://user-images.githubusercontent.com/56042296/101669860-3d3abc00-3a31-11eb-947e-95c7425966a9.png)
+
+#### Como usar o banco de dados ?
+
+
+<p>para ativar use...</p>
+
+<code>
+  npm knex:migrate
+</code>
+
+<p>e para caso aconteça algum erro, pode recomeçar tudo usando o código abaixo, ou simplismente deletando o arquivo database.sqlite e rodando o código de cima novamente.</p>
+
+<code>
+  npm knex:migrate:rollback
+</code>
 
 ## Rotas
 

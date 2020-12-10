@@ -36,13 +36,17 @@ export default {
     const { id } = req.params;
 
     try {
-      const trx = await db.transaction();
-      const results = await trx('historico').select('*').where('id', id).first();
+      const results = await db('historico')
+      .join('competidores', 'competidores.id', '=', 'historico.competidor_id')
+      .join('pistas', 'pistas.id', '=', 'historico.pista_id')
+      .select('*')
+      .where('historico.id', id)
+      .first();
 
       if (!results) {
         return res.json({ success: false, message: 'Não encontrado' });
       }
-
+      
       return res.json(results);
     } catch (error) {
       console.log(error);
@@ -50,8 +54,7 @@ export default {
     }
   },
   async post(req: Request, res: Response) {
-    const { id } = req.params;
-    const { competidor_id, data_corrida, tempo } = req.body;
+    const { competidor_id, pista_id, data_corrida, tempo } = req.body;
     const hasValidate = validate(req.body);
 
     if (hasValidate) {
@@ -60,15 +63,10 @@ export default {
 
     try {
       const trx = await db.transaction();
-      const pistas = await trx('pistas').select('*').where('id', id);
-
-      if (!pistas.length) {
-        return res.json({ success: false, message: 'Não temos nenhuma pista' });
-      }
 
       await trx('historico').insert({
         competidor_id,
-        pista_id: id,
+        pista_id,
         data_corrida,
         tempo,
       });

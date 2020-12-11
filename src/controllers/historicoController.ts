@@ -20,8 +20,6 @@ export default {
     try {
       const trx = await db.transaction();
       const results = await trx('historico')
-      .join('competidores', 'competidores.id', '=', 'historico.competidor_id')
-      .join('pistas', 'pistas.id', '=', 'historico.pista_id')
       .select('*')
 
       if (!results.length) {

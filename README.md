@@ -162,7 +162,7 @@
   Criar historico da pista (POST)
   
   <code>
-    baseUrl/pistas/:id/historicos
+    baseUrl/historicos
   </code>
 </p>
 

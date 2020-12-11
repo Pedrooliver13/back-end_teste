@@ -135,7 +135,7 @@
   Deletar Pista (DELETE)
   
   <code>
-    baseUrl/pitas/edit/:id
+    baseUrl/pistas/edit/:id
   </code>
 </p>
 

@@ -19,7 +19,10 @@ export default {
   async index(req: Request, res: Response) {
     try {
       const trx = await db.transaction();
-      const results = await trx('historico').select('*');
+      const results = await trx('historico')
+      .join('competidores', 'competidores.id', '=', 'historico.competidor_id')
+      .join('pistas', 'pistas.id', '=', 'historico.pista_id')
+      .select('*')
 
       if (!results.length) {
         return res.json({ success: false, message: 'Não tem histórico' });

@@ -10,7 +10,4 @@ routes.post('/', pistaController.post);
 routes.put('/edit/:id', pistaController.put);
 routes.delete('/edit/:id', pistaController.delete);
 
-// Criando historico 
-routes.post('/:id/historicos', historicoController.post);
-
 export default routes;

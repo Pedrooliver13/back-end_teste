@@ -5,8 +5,9 @@ const routes = express.Router();
 
 routes.get('/', historicoController.index);
 routes.get('/:id', historicoController.show);
-routes.put('/historicos/edit/:id', historicoController.put);
-routes.delete('/historicos/edit/:id', historicoController.delete);
+routes.post('/', historicoController.post);
+routes.put('/edit/:id', historicoController.put);
+routes.delete('/edit/:id', historicoController.delete);
 
 // arquivo pistaControllers
 // routes.post('/pistas/:id/historicos', historicoController.post);

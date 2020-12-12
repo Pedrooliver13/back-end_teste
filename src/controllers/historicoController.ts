@@ -18,15 +18,12 @@ function validate(body: any) {
 export default {
   async index(req: Request, res: Response) {
     try {
-      const trx = await db.transaction();
-      const results = await trx('historico')
-      .select('*')
+      const results = await db('historico').select('*')
 
       if (!results.length) {
         return res.json({ success: false, message: 'Não tem histórico' });
       }
 
-      await trx.commit();
       return res.json(results);
     } catch (error) {
       console.error(error);

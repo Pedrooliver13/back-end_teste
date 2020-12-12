@@ -82,7 +82,7 @@ export default {
 
     try {
       const trx = await db.transaction();
-      await trx('pistas').update({ id, descricao }).where('id', id);
+      await trx('pistas').update({ id, descricao }).where('id', id).first();
       await trx.commit();
 
       return res.json({ success: true, message: "Pista atualizado com sucesso" });
@@ -97,6 +97,7 @@ export default {
     try {
       const trx = await db.transaction();
       await trx('pistas').where('id', id).delete();
+      await trx('historicos').where('pista_id', id).delete();
       await trx.commit();
 
       return res.json({ success: true, message: "Pista deletado com sucesso" });

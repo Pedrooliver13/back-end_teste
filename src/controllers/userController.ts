@@ -124,8 +124,9 @@ export default {
     try {
       const trx = await db.transaction();
       await trx('competidores').where('id', id).delete();
-
+      await trx('historico').where('competidor_id', id).delete();
       await trx.commit();
+
       return res.json({ success: true, message: "Competidor deletado com sucesso" });
     } catch (error) {
       console.error(error);

@@ -116,14 +116,6 @@
 </p>
 
 <p>
-  Criar historico da pista (POST)
-  
-  <code>
-    baseUrl/pistas/:id/historicos
-  </code>
-</p>
-
-<p>
   Atualizar Pista (PUT)
   
   <code>
